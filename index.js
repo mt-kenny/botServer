@@ -1,12 +1,12 @@
-// Import express and request modules
+require('dotenv').config();
 var express = require('express');
 var request = require('request');
 const bodyParser = require('body-parser');
 
 // Store our app's ID and Secret. These we got from Step 1. 
 // For this tutorial, we'll keep your API credentials right here. But for an actual app, you'll want to  store them securely in environment variables. 
-var clientId = '684681784485.678320496065';
-var clientSecret = '4e746738b93430d1012950db3480c9cc';
+var clientId = process.env.SLACK_CLIENT_ID;
+var clientSecret = process.env.SLACK_CLIENT_SECRET;
 
 // Instantiates Express and assigns our app variable to it
 var app = express();
