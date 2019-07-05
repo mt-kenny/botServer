@@ -1,4 +1,5 @@
 require('dotenv').config();
+const showPicked = require('./showPickedRestaurant').showPicked;
 var express = require('express');
 var request = require('request');
 const bodyParser = require('body-parser');
@@ -84,6 +85,7 @@ async function requestGurunavi() {
       }
     });
     console.log('>>> ', result);
+    showPicked(result);
 
   } catch (error) {
     console.error(error);
