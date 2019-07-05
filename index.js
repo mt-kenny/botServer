@@ -65,4 +65,8 @@ app.post('/command', urlencodedParser, function (req, res) {
   res.status(200).end()
   const payload = JSON.parse(req.body.payload)
   console.log(payload)
+
+  if (payload.callback_id && payload.callback_id == 'feeling_lucky') {
+    console.log('LUCKY!');
+  }
 });
