@@ -64,28 +64,56 @@ const shuffle = (arr) => {
   return arr;
 };
 
+const getJPSearchUrl = function() {
+  const keyId = process.env.GURUNAVI_KEY_ID;
+  // const place = { lati: '35.658118', long: '139.723798' };// Castalia
+  const place = { lati: '35.658436', long: '139.726599' };// Between Castalia & BLINK
+  const range = 3;// 1 = 600m
+  const hit_per_page = 100;
+  const url = `https://api.gnavi.co.jp/RestSearchAPI/v3/?keyid=${keyId}&latitude=${place.lati}&longitude=${place.long}&range=${range}&hit_per_page=${hit_per_page}&lunch=1`;
+  return url;
+}
+
+const getForeignSearchUrl = function() {
+  const lang = 'en';
+  const keyId = process.env.GURUNAVI_KEY_ID;
+  // const place = { lati: '35.658118', long: '139.723798' };// Castalia
+  const place = { lati: '35.658436', long: '139.726599' };// Between Castalia & BLINK
+  const range = 4;// 1:300m, 2:500m, 3:1,000m, 4:2,000m, 5:3,000m
+  const hit_per_page = 100;
+  const url = `https://api.gnavi.co.jp/ForeignRestSearchAPI/v3/?keyid=${keyId}&latitude=${place.lati}&longitude=${place.long}&range=${range}&hit_per_page=${hit_per_page}&lang=${lang}`;
+  return url;
+}
+
 async function requestGurunavi() {
   try {
-    const keyId = process.env.GURUNAVI_KEY_ID;
-    // const place = { lati: '35.658118', long: '139.723798' };// Castalia
-    const place = { lati: '35.658436', long: '139.726599' };// Between Castalia & BLINK
-    const range = 3;// 1 = 600m
-    const hit_per_page = 100;
-    const url = `https://api.gnavi.co.jp/RestSearchAPI/v3/?keyid=${keyId}&latitude=${place.lati}&longitude=${place.long}&range=${range}&hit_per_page=${hit_per_page}&lunch=1`;
+    const url = getJPSearchUrl();
+    // const url = getForeignSearchUrl();
     const response = await axios.get(url);
     const shuffled = shuffle(response.data.rest);
     const pickNumber = 3;
     const picked = shuffled.slice(0, pickNumber);
 
     const result = picked.map((v) => {
+      // tslint:disable-next-line: no-console
+      // console.log('@@@ ', v.budget);
+      // jp
       return {
         name: v.name,
         category: v.category,
         lunchBudget: v.lunch,
         url: v.url
       }
+
+      // en
+      // return {
+      //   name: v.name.name,
+      //   nameSub: v.name.name_sub,
+      //   category: v.categories.category_name_l[v.categories.category_name_l.length-1],
+      //   budget: v.budget,
+      //   url: v.url
+      // }
     });
-    console.log('>>> ', result);
     showPicked(result);
 
   } catch (error) {

@@ -5,6 +5,7 @@ const slack = new Slack();
 
 const showPicked = function(restaurants) {
   let picks = '';
+  // jp
   for (const p of restaurants) {
     const lunch = p.lunchBudget ? `💰${p.lunchBudget} yen` : '💰-';
     picks += `
@@ -13,6 +14,17 @@ const showPicked = function(restaurants) {
       ${p.url}
     `;
   }
+
+  // en
+  // for (const p of restaurants) {
+  //   const budget = p.budget ? `💰${p.budget} yen` : '💰-';
+  //   const category = p.category ? `category: ${p.category}` : 'category: -';
+  //   picks += `
+  //     👉${p.name} (${p.nameSub})
+  //     ${category}
+  //     ${p.url}
+  //   `;
+  // }
   const message = `Picked randomly💁‍♀️\n${picks}`
 
   slack.chat.postMessage({
