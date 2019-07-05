@@ -70,8 +70,8 @@ async function requestGurunavi() {
     // const place = { lati: '35.658118', long: '139.723798' };// Castalia
     const place = { lati: '35.658436', long: '139.726599' };// Between Castalia & BLINK
     const range = 3;// 1 = 600m
-    const hit_per_page = 3;
-    const url = `https://api.gnavi.co.jp/RestSearchAPI/v3/?keyid=${keyId}&latitude=${place.lati}&longitude=${place.long}&range=${range}&hit_per_page=${hit_per_page}`;
+    const hit_per_page = 100;
+    const url = `https://api.gnavi.co.jp/RestSearchAPI/v3/?keyid=${keyId}&latitude=${place.lati}&longitude=${place.long}&range=${range}&hit_per_page=${hit_per_page}&lunch=1`;
     const response = await axios.get(url);
     const shuffled = shuffle(response.data.rest);
     const pickNumber = 3;
@@ -81,6 +81,7 @@ async function requestGurunavi() {
       return {
         name: v.name,
         category: v.category,
+        lunchBudget: v.lunch,
         url: v.url
       }
     });
